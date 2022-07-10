@@ -25,14 +25,19 @@ export type SagaDefinition = {
 export class SagaDefinitionBuilder<T> {
   index: number | null = null;
   sagaDefinitions: SagaDefinition[] = [];
+  private firstPayload: T;
+
+  constructor(payload: T) {
+    this.firstPayload = payload;
+  }
 
   step<TPayload>(
     name: string,
     {
-      onReply,
+      command,
       withCompensation,
     }: {
-      onReply: Command<T, TPayload>;
+      command: Command<T, TPayload>;
       withCompensation?: Command;
     },
   ): SagaDefinitionBuilder<TPayload> {
@@ -42,9 +47,9 @@ export class SagaDefinitionBuilder<T> {
       { stepName: name, phases: {} },
     ];
 
-    if (onReply) {
+    if (command) {
       this.sagaDefinitions[this.index].phases[STEP_PHASE.STEP_FORWARD] = {
-        command: onReply,
+        command,
       };
     }
 
@@ -56,8 +61,8 @@ export class SagaDefinitionBuilder<T> {
     return this as any;
   }
 
-  async build(): Promise<SagaProcessor> {
+  async build() {
     const sagaProcessor = new SagaProcessor(this.sagaDefinitions);
-    return sagaProcessor;
+    return sagaProcessor.start(this.firstPayload);
   }
 }

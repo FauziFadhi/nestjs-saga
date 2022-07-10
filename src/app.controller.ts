@@ -13,9 +13,9 @@ export class AppController {
 
   @Get()
   async getHello() {
-    const sagaBuilder = new SagaDefinitionBuilder()
+    const sagaBuilder = new SagaDefinitionBuilder({ id: 1 })
       .step('Step 1', {
-        onReply: (payload) => {
+        command: (payload) => {
           console.log('STEP 1', payload);
           return {
             age: 10,
@@ -27,7 +27,7 @@ export class AppController {
         },
       })
       .step('Step 2', {
-        onReply: (payload) => {
+        command: (payload) => {
           console.log('STEP 2', payload);
           return {
             mana: 100,
@@ -38,7 +38,7 @@ export class AppController {
         },
       })
       .step('STEP 3', {
-        onReply: (payload) => {
+        command: (payload) => {
           console.log('STEP 3', payload);
           throw Error('asd');
         },
@@ -48,9 +48,8 @@ export class AppController {
       });
 
     // console.log(sagaBuilder);
-    const sagaProcessor = await sagaBuilder.build();
+    await sagaBuilder.build();
 
-    await sagaProcessor.start({ id: 1 });
     return this.appService.getHello();
   }
 }

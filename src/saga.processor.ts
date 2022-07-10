@@ -3,7 +3,7 @@ import { Command, SagaDefinition, STEP_PHASE } from './saga.builder';
 export class SagaProcessor {
   constructor(private sagaDefinitions: SagaDefinition[]) {}
 
-  async makeStepForward<T, X>(index: number, payload: T) {
+  private async makeStepForward<T, X>(index: number, payload: T) {
     if (index >= this.sagaDefinitions.length) {
       console.log('====> Saga finished and transaction successful');
       return;
@@ -19,7 +19,7 @@ export class SagaProcessor {
     return;
   }
 
-  async makeStepBackward(index: number, payload: any) {
+  private async makeStepBackward(index: number, payload: any) {
     if (index < 0) {
       console.log('===> Saga finished and transaction rolled back');
       return;
