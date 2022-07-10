@@ -38,7 +38,7 @@ export class SagaDefinitionBuilder<T> {
       withCompensation,
     }: {
       command: Command<T, TPayload>;
-      withCompensation?: Command;
+      withCompensation?: Command<T>;
     },
   ): SagaDefinitionBuilder<TPayload> {
     this.index = this.index === null ? 0 : this.index + 1;

@@ -18,7 +18,6 @@ export class TestSaga {
   ) {}
   @Saga()
   testSaga(event: Observable<any>) {
-    console.log('asd');
     const a = event.pipe(
       ofType(HeroKilledDragonEvent),
       delay(1000),
@@ -65,8 +64,6 @@ export class TestSaga {
           id: 1,
         };
       })
-      .then((resp) => {
-        
-      });
+      .then((resp) => {});
   }
 }

@@ -24,6 +24,9 @@ export class AppController {
         },
         withCompensation: (payload) => {
           console.log('Compe 1', payload);
+          return {
+            error: 'asd',
+          };
         },
       })
       .step('Step 2', {
@@ -35,6 +38,9 @@ export class AppController {
         },
         withCompensation: (payload) => {
           console.log('Compe 2', payload);
+          return {
+            errorName: 'asd',
+          };
         },
       })
       .step('STEP 3', {
